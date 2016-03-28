@@ -1,0 +1,18 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{41876C66-FD38-410C-A9A0-6EB260AE9923}"
+	ProjectSection(SolutionItems) = preProject
+		spjs.intellisense.js = spjs.intellisense.js
+		spjs.js = spjs.js
+		spjsq.intellisense.js = spjsq.intellisense.js
+		spjsq.js = spjsq.js
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
