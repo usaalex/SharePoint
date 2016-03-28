@@ -1,4 +1,5 @@
 /* SP.JS CAML QUERY BUILDER 1.0.0 */
+/* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = SPJS || {};
 SPJS.Query = function () {

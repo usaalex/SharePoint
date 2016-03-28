@@ -4,15 +4,39 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{41876C66-FD38-410C-A9A0-6EB260AE9923}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{51572D4A-E63F-43D1-A705-B5EA3A37B4A1}"
+	ProjectSection(SolutionItems) = preProject
+		spjs.js = spjs.js
+		spjsq.js = spjsq.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "release", "release", "{CD98104F-AE6E-4EBB-BDDF-45119F0464DF}"
+	ProjectSection(SolutionItems) = preProject
+		spjs.min.js = spjs.min.js
+		spjsq.min.js = spjsq.min.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "old", "old", "{FFEE3AC4-EB1A-4C62-9607-C69727F6A0E0}"
+	ProjectSection(SolutionItems) = preProject
+		spjs.js = spjs.js
+		spjsq.js = spjsq.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "intellisense", "intellisense", "{2BDA2F5B-3EC3-44F5-B466-B53F017A66D5}"
 	ProjectSection(SolutionItems) = preProject
 		spjs.intellisense.js = spjs.intellisense.js
-		spjs.js = spjs.js
 		spjsq.intellisense.js = spjsq.intellisense.js
-		spjsq.js = spjsq.js
 	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{51572D4A-E63F-43D1-A705-B5EA3A37B4A1} = {41876C66-FD38-410C-A9A0-6EB260AE9923}
+		{CD98104F-AE6E-4EBB-BDDF-45119F0464DF} = {41876C66-FD38-410C-A9A0-6EB260AE9923}
+		{FFEE3AC4-EB1A-4C62-9607-C69727F6A0E0} = {41876C66-FD38-410C-A9A0-6EB260AE9923}
+		{2BDA2F5B-3EC3-44F5-B466-B53F017A66D5} = {41876C66-FD38-410C-A9A0-6EB260AE9923}
 	EndGlobalSection
 EndGlobal

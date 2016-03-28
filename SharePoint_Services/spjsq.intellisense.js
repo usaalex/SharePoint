@@ -1,4 +1,5 @@
 /* SPJS intellisense 1.0.2 */
+/* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 intellisense.annotate(SPJS.Query, function () {
     /// <signature>

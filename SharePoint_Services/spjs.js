@@ -1,4 +1,5 @@
 /* SP.JS WRAPPER 1.0.2 */
+/* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = (function ($) {
 
