@@ -126,8 +126,10 @@ SPJS.Query = function () {
 
     function createElement(elementType, fieldName, value, valueType, lookupId) {
 
-        if (isNullEmptyUndefined(fieldName)) throw new ArgumentNullException('fieldName');
-        if (isNullEmptyUndefined(value)) throw new ArgumentNullException('value');
+        if (elementType >= 3) {
+            if (isNullEmptyUndefined(fieldName)) throw new ArgumentNullException('fieldName');
+            if (isNullEmptyUndefined(value)) throw new ArgumentNullException('value');
+        }
 
         checkStack(elementType);
         if (typeof valueType == 'boolean' && valueType) {
