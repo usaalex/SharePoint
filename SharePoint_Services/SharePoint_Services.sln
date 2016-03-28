@@ -23,6 +23,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{32F76C27-4D8
 		src\spjsq.js = src\spjsq.js
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{99A3EA6F-B9B0-4854-8882-EE065EDE23EA}"
+	ProjectSection(SolutionItems) = preProject
+		spjs.min.js = spjs.min.js
+		spjsq.min.js = spjsq.min.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
