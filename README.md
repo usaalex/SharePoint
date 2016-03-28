@@ -4,6 +4,10 @@ SharePoint development related stuff!
 ## SharePoint JavaScript libraries
 
 ### SP.JS Wrapper - SPJS
+#### Requirements
+* SharePoint 2010
+* jQuery
+
 SP.JS routine operations wrapper.
 Allows you to easily perform CRUD operations on Lists, get any user-related data and display SharePoint modal dialogs.
 Documentation can be found in 'intellisense' folder.
@@ -12,6 +16,7 @@ Documentation can be found in 'intellisense' folder.
 * Lists CRUD operations
 * Get Users data
 * SharePoint modal dialogs
+* Deferreds, deferreds everywhere - no more callbacks
 
 ##### Examples:
 ```JavaScript
@@ -21,6 +26,9 @@ Documentation can be found in 'intellisense' folder.
 ### SP.CamlQuery Builder - SPJS.Query
 Allows you to easily build SharePoint Caml Query.
 Documentation can be found in 'intellisense' folder.
+
+#### Requirements
+* SharePoint 2010
 
 ##### Features:
 * Logical join operators: and, or
