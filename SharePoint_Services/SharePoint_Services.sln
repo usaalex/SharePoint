@@ -17,12 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "old", "old", "{A359CD94-10D
 		old\spjsq1.0.0.js = old\spjsq1.0.0.js
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mini", "mini", "{4442EDCA-C0AD-422E-A01A-988E24FA5FD0}"
-	ProjectSection(SolutionItems) = preProject
-		release\spjs.min.js = release\spjs.min.js
-		release\spjsq.min.js = release\spjsq.min.js
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{32F76C27-4D88-4A05-B41E-59F794D75DE2}"
 	ProjectSection(SolutionItems) = preProject
 		src\spjs.js = src\spjs.js
