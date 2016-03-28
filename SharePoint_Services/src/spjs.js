@@ -1,7 +1,9 @@
-/* SP.JS WRAPPER 1.0.2 */
+/* SP.JS WRAPPER 1.0.3 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = (function ($) {
+
+    'use strict';
 
     function ArgumentNullException(argument) {
         this.name = "ArgumentNullException";
@@ -15,11 +17,19 @@ var SPJS = (function ($) {
         this.stack = (new Error()).stack;
     }
 
+    function isNullEmptyUndefined(val) {
+        return typeof val === 'undefined' || val === null || val === '';
+    }
+
+    function isEmptyArray(val) {
+        return (typeof val != 'undefined' && val instanceof Array) ? !val.length : true;
+    }
+
     /* LIST ITEMS */
 
     function getListItems(list, camlQuery, viewFields, rootWeb) {
 
-        if (!list) throw new ArgumentNullException("list");
+        if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");
 
         var def = $.Deferred();
         var spCtx = SP.ClientContext.get_current();
@@ -46,9 +56,8 @@ var SPJS = (function ($) {
 
     function getListItemsByIds(list, ids, viewFields, rootWeb) {
 
-        if (!list) throw new ArgumentNullException("list");
-        if (!ids) throw new ArgumentNullException("ids");
-        if (!(ids instanceof Array) || ids.length <= 0) throw new ArgumentException("ids", "Value must be an array and have at least one element.");
+        if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");
+        if (isNullEmptyUndefined(ids) || isEmptyArray(ids)) throw new ArgumentException("ids", "Value must be an array and have at least one element.");
 
         var def = $.Deferred();
         var spCtx = SP.ClientContext.get_current();
@@ -78,9 +87,8 @@ var SPJS = (function ($) {
 
     function createListItems(list, newItems, rootWeb) {
 
-        if (!list) throw new ArgumentNullException("list");
-        if (!newItems) throw new ArgumentNullException("newItems");
-        if (!(newItems instanceof Array) || newItems.length <= 0) throw new ArgumentException("newItems", "Value must be an array and have at least one element.");
+        if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");
+        if (isNullEmptyUndefined(newItems) || isEmptyArray(newItems)) throw new ArgumentException("newItems", "Value must be an array and have at least one element.");
 
         var def = $.Deferred();
         var spCtx = SP.ClientContext.get_current();
@@ -114,9 +122,8 @@ var SPJS = (function ($) {
 
     function updateListItems(list, updatedItems, rootWeb) {
 
-        if (!list) throw new ArgumentNullException("list");
-        if (!updatedItems) throw new ArgumentNullException("updatedItems");
-        if (!(updatedItems instanceof Array) || updatedItems.length <= 0) throw new ArgumentException("updatedItems", "Value must be an array and have at least one element.");
+        if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");        
+        if (isNullEmptyUndefined(updatedItems) || isEmptyArray(updatedItems)) throw new ArgumentException("updatedItems", "Value must be an array and have at least one element.");
 
         var def = $.Deferred();
         var spCtx = SP.ClientContext.get_current();
@@ -161,8 +168,8 @@ var SPJS = (function ($) {
 
     function deleteListItems(list, camlQuery, rootWeb) {
 
-        if (!list) throw new ArgumentNullException("list");
-        if (!camlQuery) throw new ArgumentNullException("camlQuery");        
+        if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");
+        if (isNullEmptyUndefined(camlQuery)) throw new ArgumentNullException("camlQuery");        
 
         return getListItems(list, camlQuery, ["ID"], rootWeb)
             .then(function (items) {
@@ -176,9 +183,8 @@ var SPJS = (function ($) {
 
     function deleteListItemsByIds(list, ids, rootWeb) {
 
-        if (!list) throw new ArgumentNullException("list");
-        if (!ids) throw new ArgumentNullException("ids");
-        if (!(ids instanceof Array) || ids.length <= 0) throw new ArgumentException("ids", "Value must be an array and have at least one element.");
+        if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");        
+        if (isNullEmptyUndefined(ids) || isEmptyArray(ids)) throw new ArgumentException("ids", "Value must be an array and have at least one element.");
 
         var def = $.Deferred();
         var spCtx = SP.ClientContext.get_current();
@@ -204,7 +210,7 @@ var SPJS = (function ($) {
 
     function getGUID(list, rootWeb) {
 
-        if (!list) throw new ArgumentNullException("list");
+        if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");
 
         var def = $.Deferred();
         var spCtx = SP.ClientContext.get_current();
@@ -227,7 +233,7 @@ var SPJS = (function ($) {
 
     function ensureUser(userName) {
 
-        if (!userName) throw new ArgumentNullException("userName");
+        if (isNullEmptyUndefined(userName)) throw new ArgumentNullException("userName");
 
         var def = $.Deferred();
         var spCtx = SP.ClientContext.get_current();

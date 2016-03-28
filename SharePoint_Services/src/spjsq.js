@@ -1,4 +1,4 @@
-/* SP.JS CAML QUERY BUILDER 1.0.0 */
+/* SP.JS CAML QUERY BUILDER 1.0.1 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = SPJS || {};
@@ -6,7 +6,28 @@ SPJS.Query = function () {
 
     'use strict';
 
-    /* Init */
+    function ArgumentNullException(argument) {
+        this.name = "ArgumentNullException";
+        this.message = 'Value can not be null or undefined. Parameter name: ' + argument;
+        this.stack = (new Error()).stack;
+    }
+
+    function ArgumentException(argument, message) {
+        this.name = "ArgumentException";
+        this.message = (message || 'Argument exception') + '. Parameter name: ' + argument;
+        this.stack = (new Error()).stack;
+    }
+
+    function isNullEmptyUndefined(val) {
+        return typeof val === 'undefined' || val === null || val === '';
+    }
+
+    function isEmptyArray(val) {
+        return (typeof val != 'undefined' && val instanceof Array) ? !val.length : true;
+    }
+
+    /* INIT */
+
     var orderBy = '';
     var groupBy = '';
     var viewFields = '';
@@ -28,8 +49,7 @@ SPJS.Query = function () {
         includes: 12,
         isNull: 13,
         isNotNull: 14,
-        notIncludes: 15/*,
-		dataOverlap: 16*/
+        notIncludes: 15
     };
 
     /*  Utilities  */
@@ -104,7 +124,11 @@ SPJS.Query = function () {
         }
     }
 
-    function createElement(elementType, field, value, valueType, lookupId) {
+    function createElement(elementType, fieldName, value, valueType, lookupId) {
+
+        if (isNullEmptyUndefined(fieldName)) throw new ArgumentNullException('fieldName');
+        if (isNullEmptyUndefined(value)) throw new ArgumentNullException('value');
+
         checkStack(elementType);
         if (typeof valueType == 'boolean' && valueType) {
             valueType = 'Lookup';
@@ -112,7 +136,7 @@ SPJS.Query = function () {
         if (!!lookupId && valueType != 'Lookup') {
             lookupId = false;
         }
-        whereStack.push(new Element(elementType, field, value, valueType, lookupId));
+        whereStack.push(new Element(elementType, fieldName, value, valueType, lookupId));
         return this;
     }
 
@@ -161,9 +185,7 @@ SPJS.Query = function () {
     }
 
     function In(fieldName, values, valueType, lookupId) {
-        if (!values || (values && (!(values instanceof Array) || values.length <= 0))) {
-            throw new Error('Values must be an array and have at least one element.');
-        }
+        if (isNullEmptyUndefined(values) || isEmptyArray(values)) throw new ArgumentException('values', 'Value must be an array and have at least one element.');
         return createElement.call(this, type.in_, fieldName, values, valueType, lookupId);
     }
 
@@ -186,23 +208,35 @@ SPJS.Query = function () {
     /*  Options  */
 
     function GroupBy(fieldName, collapse) {
+
+        if (isNullEmptyUndefined(fieldName)) throw new ArgumentNullException('fieldName');
+
         var collapse = !!collapse ? 'TRUE' : 'FALSE';
         groupBy = '<GroupBy Collapse = "' + collapse + '"><FieldRef Name = "' + fieldName + '"/></GroupBy>';
         return this;
     }
 
     function OrderBy(fieldName, descending) {
+
+        if (isNullEmptyUndefined(fieldName)) throw new ArgumentNullException('fieldName');
+
         var ascending = !!descending ? 'FALSE' : 'TRUE';
         orderBy += '<FieldRef Name="' + fieldName + '" Ascending="' + ascending + '" />';
         return this;
     }
 
     function RowLimit(num) {
+
+        if (isNullEmptyUndefined(num) || isNaN(num)) throw new ArgumentNullException('num');
+
         rowLimit = (+num) || 0;
         return this;
     }
 
     function Scope(viewScope) {
+
+        if (isNullEmptyUndefined(viewScope)) throw new ArgumentNullException('viewScope');
+
         scope = viewScope;
         return this;
     }
@@ -217,7 +251,7 @@ SPJS.Query = function () {
         return this;
     }
 
-    /*  Misc - */
+    /*  Misc */
 
     function buildWhere() {
         var result = '{caml}';
