@@ -29,31 +29,33 @@ SPJS.Query = function () {
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
             /// <param name='valueType' type='String' optional='true'>Field value type.</param>
+            /// <param name='lookupId' type='String' optional='true'>Lookup field value by id (only if valueType is Lookup).</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
-            /// <summary>Equals comparison operator.</summary>    
+            /// <summary>Lookup equals to comparison operator.</summary>    
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
-            /// <param name='lookup' type='Boolean' optional='true'>Field value type is lookup.</param>
-            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id. (Default = true).</param>
+            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id.</param>
+            /// <param name='isMulti' type='Boolean' optional='true'>Is Lookup field is MultiLookup.</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
         },
         'Neq': function () {
             /// <signature>
-            /// <summary>Not equals to comparison operator.</summary>    
+            /// <summary>Lookup not equals to comparison operator.</summary>    
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
             /// <param name='valueType' type='String' optional='true'>Field value type.</param>
+            /// <param name='lookupId' type='String' optional='true'>Lookup field value by id (only if valueType is Lookup).</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
             /// <summary>Not equals to comparison operator.</summary>    
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
-            /// <param name='lookup' type='Boolean' optional='true'>Field value type is lookup.</param>
-            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id. (Default = true).</param>
+            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id.</param>
+            /// <param name='isMulti' type='Boolean' optional='true'>Is Lookup field is MultiLookup.</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
         },
@@ -63,14 +65,15 @@ SPJS.Query = function () {
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
             /// <param name='valueType' type='String' optional='true'>Field value type.</param>
+            /// <param name='lookupId' type='String' optional='true'>Lookup field value by id (only if valueType is Lookup).</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
-            /// <summary>Greater than comparison operator.</summary>    
+            /// <summary>Lookup greater than comparison operator.</summary>    
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
-            /// <param name='lookup' type='Boolean' optional='true'>Field value type is lookup.</param>
-            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id. (Default = true).</param>
+            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id.</param>
+            /// <param name='isMulti' type='Boolean' optional='true'>Is Lookup field is MultiLookup.</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
         },
@@ -80,14 +83,15 @@ SPJS.Query = function () {
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
             /// <param name='valueType' type='String' optional='true'>Field value type.</param>
+            /// <param name='lookupId' type='String' optional='true'>Lookup field value by id (only if valueType is Lookup).</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
-            /// <summary>Greater or equals to comparison operator.</summary>    
+            /// <summary>Lookup greater or equals to comparison operator.</summary>    
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
-            /// <param name='lookup' type='Boolean' optional='true'>Field value type is lookup.</param>
-            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id. (Default = true).</param>
+            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id.</param>
+            /// <param name='isMulti' type='Boolean' optional='true'>Is Lookup field is MultiLookup.</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
         },
@@ -97,14 +101,15 @@ SPJS.Query = function () {
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
             /// <param name='valueType' type='String' optional='true'>Field value type.</param>
+            /// <param name='lookupId' type='String' optional='true'>Lookup field value by id (only if valueType is Lookup).</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
-            /// <summary>Less than comparison operator.</summary>    
+            /// <summary>Lookup less than comparison operator.</summary>    
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
-            /// <param name='lookup' type='Boolean' optional='true'>Field value type is lookup.</param>
-            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id. (Default = true).</param>
+            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id.</param>
+            /// <param name='isMulti' type='Boolean' optional='true'>Is Lookup field is MultiLookup.</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
         },
@@ -114,14 +119,15 @@ SPJS.Query = function () {
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
             /// <param name='valueType' type='String' optional='true'>Field value type.</param>
+            /// <param name='lookupId' type='String' optional='true'>Lookup field value by id (only if valueType is Lookup).</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
-            /// <summary>Less or equals to comparison operator.</summary>    
+            /// <summary>Lookup less or equals to comparison operator.</summary>    
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
-            /// <param name='lookup' type='Boolean' optional='true'>Field value type is lookup.</param>
-            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id. (Default = true).</param>
+            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id.</param>
+            /// <param name='isMulti' type='Boolean' optional='true'>Is Lookup field is MultiLookup.</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
         },
@@ -131,14 +137,15 @@ SPJS.Query = function () {
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
             /// <param name='valueType' type='String' optional='true'>Field value type.</param>
+            /// <param name='lookupId' type='String' optional='true'>Lookup field value by id (only if valueType is Lookup).</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
-            /// <summary>Begins with comparison operator. Searches for a string at the start of a column.</summary>    
+            /// <summary>Lookup Begins with comparison operator. Searches for a string at the start of a column.</summary>    
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
-            /// <param name='lookup' type='Boolean' optional='true'>Field value type is lookup.</param>
-            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id. (Default = true).</param>
+            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id.</param>
+            /// <param name='isMulti' type='Boolean' optional='true'>Is Lookup field is MultiLookup.</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
         },
@@ -148,14 +155,15 @@ SPJS.Query = function () {
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
             /// <param name='valueType' type='String' optional='true'>Field value type.</param>
+            /// <param name='lookupId' type='String' optional='true'>Lookup field value by id (only if valueType is Lookup).</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
-            /// <summary>Contains comparison operator. Searches for a string anywhere within a column.</summary>    
+            /// <summary>Lookup Contains comparison operator. Searches for a string anywhere within a column.</summary>    
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='value' type='T'>Field value.</param>
-            /// <param name='lookup' type='Boolean' optional='true'>Field value type is lookup.</param>
-            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id. (Default = true).</param>
+            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id.</param>
+            /// <param name='isMulti' type='Boolean' optional='true'>Is Lookup field is MultiLookup.</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
         },
@@ -165,14 +173,15 @@ SPJS.Query = function () {
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='values' type='Array'>Field values.</param>
             /// <param name='valueType' type='String' optional='true'>Field value type.</param>
+            /// <param name='lookupId' type='String' optional='true'>Lookup field value by id (only if valueType is Lookup).</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
-            /// <summary>In comparison operator. Specifies whether the field value is equal to one of the values.</summary>    
+            /// <summary>Lookup In comparison operator. Specifies whether the field value is equal to one of the values.</summary>    
             /// <param name='fieldName' type='String'>Internal field name.</param>
             /// <param name='values' type='Array'>Field values.</param>
-            /// <param name='lookup' type='Boolean' optional='true'>Field value type is lookup.</param>
-            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id. (Default = true).</param>
+            /// <param name='lookupId' type='Boolean' optional='true'>Lookup field value by id.</param>
+            /// <param name='isMulti' type='Boolean' optional='true'>Is Lookup field is MultiLookup.</param>
             /// <returns type="SPJS.Query" />
             /// </signature>
         },

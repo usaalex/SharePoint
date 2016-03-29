@@ -93,10 +93,7 @@ SPJS.Query = function () {
         if (fieldName === 'ID') {
             this.valueType = 'Counter';
         }
-        if (!!lookupId) {
-            this.valueType = 'Lookup';
-        }
-        if (valueType == 'Lookup' && typeof lookupId == 'undefined') {
+        if ((valueType == 'Lookup' || valueType == 'LookupMulti') && typeof lookupId == 'undefined') {
             this.lookupId = true;
         }
     };
@@ -124,7 +121,7 @@ SPJS.Query = function () {
         }
     }
 
-    function createElement(elementType, fieldName, value, valueType, lookupId) {
+    function createElement(elementType, fieldName, value, valueType, isMulti) {
 
         if (elementType >= 3) {
             if (isNullEmptyUndefined(fieldName)) throw new ArgumentNullException('fieldName');
@@ -132,12 +129,20 @@ SPJS.Query = function () {
         }
 
         checkStack(elementType);
-        if (typeof valueType == 'boolean' && valueType) {
-            valueType = 'Lookup';
+        // overloaded
+        var lookupId = false;
+        if (typeof valueType == 'boolean') {
+            lookupId = !!valueType;
+            if (elementType == type.in_) valueType = lookupId ? 'Integer' : 'Text';
+            else valueType = !!isMulti ? 'LookupMulti' : 'Lookup';            
         }
-        if (!!lookupId && valueType != 'Lookup') {
-            lookupId = false;
+        else {
+            if (valueType === 'Lookup' || valueType == 'LookupMulti') {
+                lookupId = !!isMulti;
+                if (elementType == type.in_) valueType = lookupId ? 'Integer' : 'Text';
+            }
         }
+        //
         whereStack.push(new Element(elementType, fieldName, value, valueType, lookupId));
         return this;
     }
@@ -154,41 +159,41 @@ SPJS.Query = function () {
 
     /*  Comparison operators  */
 
-    function Eq(fieldName, value, valueType, lookupId) {
-        return createElement.call(this, type.eq, fieldName, value, valueType, lookupId);
+    function Eq(fieldName, value, valueType, isMulti) {
+        return createElement.call(this, type.eq, fieldName, value, valueType, isMulti);
     }
 
-    function Neq(fieldName, value, valueType, lookupId) {
-        return createElement.call(this, type.neq, fieldName, value, valueType, lookupId);
+    function Neq(fieldName, value, valueType, isMulti) {
+        return createElement.call(this, type.neq, fieldName, value, valueType, isMulti);
     }
 
-    function Gt(fieldName, value, valueType, lookupId) {
-        return createElement.call(this, type.gt, fieldName, value, valueType, lookupId);
+    function Gt(fieldName, value, valueType, isMulti) {
+        return createElement.call(this, type.gt, fieldName, value, valueType, isMulti);
     }
 
-    function Geq(fieldName, value, valueType, lookupId) {
-        return createElement.call(this, type.geq, fieldName, value, valueType, lookupId);
+    function Geq(fieldName, value, valueType, isMulti) {
+        return createElement.call(this, type.geq, fieldName, value, valueType, isMulti);
     }
 
-    function Lt(fieldName, value, valueType, lookupId) {
-        return createElement.call(this, type.lt, fieldName, value, valueType, lookupId);
+    function Lt(fieldName, value, valueType, isMulti) {
+        return createElement.call(this, type.lt, fieldName, value, valueType, isMulti);
     }
 
-    function Leq(fieldName, value, valueType, lookupId) {
-        return createElement.call(this, type.leq, fieldName, value, valueType, lookupId);
+    function Leq(fieldName, value, valueType, isMulti) {
+        return createElement.call(this, type.leq, fieldName, value, valueType, isMulti);
     }
 
-    function BeginsWith(fieldName, value, valueType, lookupId) {
-        return createElement.call(this, type.begins, fieldName, value, valueType, lookupId);
+    function BeginsWith(fieldName, value, valueType, isMulti) {
+        return createElement.call(this, type.begins, fieldName, value, valueType, isMulti);
     }
 
-    function Contains(fieldName, value, valueType, lookupId) {
-        return createElement.call(this, type.contains, fieldName, value, valueType, lookupId);
+    function Contains(fieldName, value, valueType, isMulti) {
+        return createElement.call(this, type.contains, fieldName, value, valueType, isMulti);
     }
 
-    function In(fieldName, values, valueType, lookupId) {
+    function In(fieldName, values, valueType, isMulti) {
         if (isNullEmptyUndefined(values) || isEmptyArray(values)) throw new ArgumentException('values', 'Value must be an array and have at least one element.');
-        return createElement.call(this, type.in_, fieldName, values, valueType, lookupId);
+        return createElement.call(this, type.in_, fieldName, values, valueType, isMulti);
     }
 
     //function Includes(fieldName, value, valueType, lookupId) {
