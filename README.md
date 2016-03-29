@@ -66,6 +66,20 @@ Documentation can be found in 'intellisense' folder.
                               .RowLimit(1)
                               .build(); // order by 'Created' descending (second argument) nad limit query
                               
+  // explicitly specify value type
+  // every comparison operator has 3d optional parameter - valueType
+  // Operator(fieldName, value, valueType)
+  
+  var query = new SPJS.Query().Eq('ListLookup', 5, 'Lookup'); // ListLookup as Lookup equals to 5
+  var query = new SPJS.Query().Eq('Title', 'Title?', 'Text'); // Title as Text equals to 'Title?'
+                              
+  // lookups
+  // every comparison operator has overloaded version for fetching lookups
+  // Operator(fieldName, value, isLookup, lookupId = true)
+  
+  var query = new SPJS.Query().Eq('ListLookup', 5, true); // ListLookup lookup id equals to 5
+  var query = new SPJS.Query().Eq('ListLookup', 'Item1', true, false); // ListLookup lookup value equals to 'Item1'
+                              
   // complex query
   var query = new SPJS.Query().Gt('Salary', 1500)
                               .And()
