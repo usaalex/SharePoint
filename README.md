@@ -35,6 +35,7 @@ Documentation can be found in 'intellisense' folder.
 * Logical join operators: and, or
 * Comparison operators: eq, neq, gt, geq, lt, leq, beginswith, contains, in, is null, isnotnull (all except includes)
 * Other: row limit, scope, orderby, groupby
+* Auto value type detection (but still can be set explicitly)
 
 ##### Examples:
 ```JavaScript
