@@ -68,18 +68,20 @@ Documentation can be found in 'intellisense' folder.
                               .build(); // order by 'Created' descending (second argument) nad limit query
                               
   // explicitly specify value type
-  // every comparison operator has 3d optional parameter - valueType
-  // Operator(fieldName, value, valueType)
+  // every comparison operator has 3d optional parameter - valueType (4th param works only if valueType is Lookup/Multi)
+  // Operator(fieldName, value, valueType, lookupId)
   
-  var query = new SPJS.Query().Eq('ListLookup', 5, 'Lookup'); // ListLookup as Lookup equals to 5
+  var query = new SPJS.Query().Eq('ListLookup', 5, 'Lookup', true); // ListLookup as Lookup equals to 5 (id)
+  var query = new SPJS.Query().Eq('ListLookup', 'Item5', 'Lookup', false); // ListLookup as Lookup equals to 'Item1' (value)
   var query = new SPJS.Query().Eq('Title', 'Title?', 'Text'); // Title as Text equals to 'Title?'
                               
   // lookups
   // every comparison operator has overloaded version for fetching lookups
-  // Operator(fieldName, value, isLookup, lookupId = true)
+  // Operator(fieldName, value, lookupId, isMulti)
   
   var query = new SPJS.Query().Eq('ListLookup', 5, true); // ListLookup lookup id equals to 5
-  var query = new SPJS.Query().Eq('ListLookup', 'Item1', true, false); // ListLookup lookup value equals to 'Item1'
+  var query = new SPJS.Query().Eq('ListLookup', 'Item1', false); // ListLookup lookup value equals to 'Item1'
+  var query = new SPJS.Query().Eq('ListLookupMulti', 2, true, true); // ListLookupMulti lookup id equals to 5
                               
   // complex query
   var query = new SPJS.Query().Gt('Salary', 1500)
