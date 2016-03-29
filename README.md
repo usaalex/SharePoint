@@ -16,6 +16,7 @@ Documentation can be found in 'intellisense' folder.
 * Lists CRUD operations
 * Get Users data
 * SharePoint modal dialogs
+* People Picker fix (picker dialog not returning value unless People Picker is in IFrame)
 * Deferreds, deferreds everywhere - no more callbacks
 
 ##### Examples:
@@ -39,16 +40,23 @@ Documentation can be found in 'intellisense' folder.
 ```JavaScript
   // empty query
   var query = new SPJS.Query().build(); // build() method will return CAML Query as string
+  
   // gt operator
   var query = new SPJS.Query();
   query = query.Gt('ID', 99).build(); // ID is greater than 99
-  // or operator
+  
+  // or/and operator
   var query = new SPJS.Query();
-  query = query.Eq('Title', 'SharePoint').Or().Eq('Title', 'GitHub').build(); // Title equals to 'SharePoint' or 'GitHub'
+  query = query.Eq('Title', 'SharePoint')
+               .Or() // .And()
+               .Eq('Title', 'GitHub').build(); // Title equals to 'SharePoint' or 'GitHub'
+               
   // set row limit
   var query = new SPJS.Query(); 
   query = query.RowLimit(1).build(); // limit query results count by 1
+  
   // order by
   var query = new SPJS.Query();
-  query = query.OrderBy('Created', true).RowLimit(1).build(); // order by 'Created' descending (second argument) nad limit query
+  query = query.OrderBy('Created', true)
+               .RowLimit(1).build(); // order by 'Created' descending (second argument) nad limit query
 ```
