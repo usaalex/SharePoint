@@ -65,4 +65,25 @@ Documentation can be found in 'intellisense' folder.
   var query = new SPJS.Query().OrderBy('Created', true)
                               .RowLimit(1)
                               .build(); // order by 'Created' descending (second argument) nad limit query
+                              
+  // complex query
+  var query = new SPJS.Query().Gt('Salary', 1500)
+                              .And()
+                              .Eq('Department', 'IT')
+                              .And()
+                              .BeginsWith('LastName', 'K')
+                              .RowLimit(1)
+                              .ViewFields('ID', 'Salary', 'FirstName', 'LastName')
+                              .OrderBy('Salary')
+                              .OrderBy('ID');
+
+  // some rules:
+  // logical join operators must follow comparison operators and vice versa
+  // logical join operators cant be first operator in chain
+  
+  var query = new SPJS.Query().And()
+                              .Eq('ID', '1'); // this will throw an error - you cant have logical join 
+                                              // operator as first operator
+  var query = new SPJS.Query().Eq('Title', 'Will this ')       // this will throw an error - you cant have
+                              .Eq('Title', 'throw an error?'); // comparison operators without logical join
 ```
