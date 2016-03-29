@@ -38,25 +38,31 @@ Documentation can be found in 'intellisense' folder.
 
 ##### Examples:
 ```JavaScript
+  // equals to
+  var query = new SPJS.Query();
+  query.Eq('Title', 'Hello World'); // title equals to 'Hello World'
+  query = query.build(); // build() method will return CAML Query as string
+  
+  // NOTE: every method (except build()) returns SPJS.Query object for chaining
+
   // empty query
-  var query = new SPJS.Query().build(); // build() method will return CAML Query as string
+  var query = new SPJS.Query().build(); 
   
   // gt operator
-  var query = new SPJS.Query();
-  query = query.Gt('ID', 99).build(); // ID is greater than 99
+  var query = new SPJS.Query().Gt('ID', 99).build(); // ID is greater than 99
   
   // or/and operator
-  var query = new SPJS.Query();
-  query = query.Eq('Title', 'SharePoint')
-               .Or() // .And()
-               .Eq('Title', 'GitHub').build(); // Title equals to 'SharePoint' or 'GitHub'
+  var query = new SPJS.Query().Eq('Title', 'SharePoint')
+                              .Or() // .And()
+                              .Eq('Title', 'GitHub')
+                              .build(); // Title equals to 'SharePoint' or 'GitHub'
                
   // set row limit
-  var query = new SPJS.Query(); 
-  query = query.RowLimit(1).build(); // limit query results count by 1
+  var query = new SPJS.Query().RowLimit(1)
+                              .build(); // limit query results count by 1
   
   // order by
-  var query = new SPJS.Query();
-  query = query.OrderBy('Created', true)
-               .RowLimit(1).build(); // order by 'Created' descending (second argument) nad limit query
+  var query = new SPJS.Query().OrderBy('Created', true)
+                              .RowLimit(1)
+                              .build(); // order by 'Created' descending (second argument) nad limit query
 ```
