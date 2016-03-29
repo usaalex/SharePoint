@@ -80,10 +80,14 @@ Documentation can be found in 'intellisense' folder.
   // some rules:
   // logical join operators must follow comparison operators and vice versa
   // logical join operators cant be first operator in chain
+  // logical join operator cant be last operator in chain (must be followed by comparison operator)
   
   var query = new SPJS.Query().And()
                               .Eq('ID', '1'); // this will throw an error - you cant have logical join 
                                               // operator as first operator
   var query = new SPJS.Query().Eq('Title', 'Will this ')       // this will throw an error - you cant have
                               .Eq('Title', 'throw an error?'); // comparison operators without logical join
+                              
+  var query = new SPJS.Query().Eq('Title', 'Cheese') // this will throw an error - logical join operator
+                              .And();                // must be followed by comparison operator
 ```
