@@ -25,6 +25,15 @@ var SPJS = (function ($) {
         return (typeof val != 'undefined' && val instanceof Array) ? !val.length : true;
     }
 
+    String.prototype.format = function () {
+        var thisString = this;
+        for (var i = 0; i < arguments.length; i++) {
+            thisString = thisString.replace("{" + i + "}", arguments[i]);
+        }
+
+        return thisString;
+    };
+
     /* LIST ITEMS */
 
     function getListItems(list, camlQuery, viewFields, rootWeb) {
