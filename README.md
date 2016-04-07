@@ -3,7 +3,7 @@ SharePoint development related stuff!
 
 ## SharePoint JavaScript libraries
 
-### SP.JS Wrapper - SPJS
+### SP.JS Wrapper - SPJS (1.1.0)
 #### Requirements
 * SharePoint 2010
 * jQuery
@@ -24,7 +24,10 @@ Documentation can be found in 'intellisense' folder.
   // coming soon
 ```
 
-### SP.CamlQuery Builder - SPJS.Query
+##### New features:
+* 1.1.0 Added Property Bag get and set functionality.
+
+### SP.CamlQuery Builder - SPJS.Query (1.0.1)
 Allows you to easily build SharePoint Caml Query.
 Documentation can be found in 'intellisense' folder.
 
