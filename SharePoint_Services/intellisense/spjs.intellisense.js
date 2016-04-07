@@ -173,7 +173,6 @@ intellisense.annotate(SPJS, {
         /// <returns type='$.Deferred' />
         /// </signature>
     },
-
     'showSPWaitDialog': function () {
         /// <signature>
         /// <summary>Show SP.UI.ModalDialog.showWaitScreenWithNoClose.</summary>
@@ -214,5 +213,5 @@ intellisense.annotate(SPJS, {
         /// <param name='rootWeb' type='Boolean' optional='true'>Perform query on root web.</param>
         ///	<returns type='$.Deferred' />
         /// </signature>
-    }    
+    },
 });
