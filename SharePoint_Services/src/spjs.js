@@ -1,4 +1,4 @@
-/* SP.JS WRAPPER 1.0.3 */
+/* SP.JS WRAPPER 1.1.0 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = (function ($) {
@@ -23,6 +23,14 @@ var SPJS = (function ($) {
 
     function isEmptyArray(val) {
         return (typeof val != 'undefined' && val instanceof Array) ? !val.length : true;
+    }
+
+    function isPrimitiveType(val) {
+        return (typeof val === 'string' ||
+                typeof val === 'number' ||
+                typeof val === 'boolean' ||
+                val === null ||
+                typeof val === 'undefined');
     }
 
     String.prototype.format = function () {
@@ -362,6 +370,61 @@ var SPJS = (function ($) {
         return entities;
     }
 
+    function getPropertyBag(key, rootWeb) {
+
+        if (isNullEmptyUndefined(key)) throw new ArgumentNullException("key");
+
+        var def = $.Deferred();
+        var spCtx = SP.ClientContext.get_current();
+        var spWeb = (!!rootWeb) ? spCtx.get_site().get_rootWeb() : spCtx.get_web();        
+        var props = spWeb.get_allProperties();
+        spCtx.load(props);
+        spCtx.executeQueryAsync(
+            function (sender, args) {
+                var value = null;
+                try {
+                    value = props.get_item(key);
+                }
+                catch (e) { }
+
+                def.resolve(value, sender, args);
+            },
+            function (sender, args) {
+                def.reject(args, sender);
+            }
+        );
+
+        return def.promise();
+    }
+
+    function setPropertyBag(key, value, rootWeb) {
+
+        if (isNullEmptyUndefined(key)) throw new ArgumentNullException("key");
+        if (!isPrimitiveType(value)) {
+            value = JSON.stringify(value);
+        }
+        value = (typeof value === 'undefined') ? null : value;
+        if (typeof value === 'boolean') { value = !!value ? 1 : 0; }
+        value = value.toString();
+
+        var def = $.Deferred();
+        var spCtx = SP.ClientContext.get_current();
+        var spWeb = (!!rootWeb) ? spCtx.get_site().get_rootWeb() : spCtx.get_web();        
+        var props = spWeb.get_allProperties();
+        props.set_item(key, value);
+        spWeb.update();
+        spCtx.executeQueryAsync(
+            function (sender, args) {
+                def.resolve(true, sender, args);
+            },
+            function (sender, args) {
+                def.reject(args, sender);
+            }
+        );
+
+        return def.promise();
+    }
+
     return {
         getListItems: getListItems,
         getListItemsByIds: getListItemsByIds,
@@ -385,6 +448,11 @@ var SPJS = (function ($) {
 
         applyPeoplePickerFix: applyPeoplePickerFix,
         getEntitiesPeoplePicker: getEntitiesPeoplePicker,
+
+        getPropertyBag: getPropertyBag,
+        setPropertyBag: setPropertyBag
+
+
     }
 
 })(jQuery);

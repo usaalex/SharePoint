@@ -1,4 +1,4 @@
-/* SPJS intellisense 1.0.2 */
+/* SPJS intellisense 1.1.0 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 intellisense.annotate(SPJS, {
@@ -198,4 +198,21 @@ intellisense.annotate(SPJS, {
         ///	<returns type='Array' />
         /// </signature>
     },
+    'setPropertyBag': function () {
+        /// <signature>
+        ///	<summary>Set SP.Web Property Bag value.<para>On success: Boolean (true).</para></summary>
+        /// <param name='key' type='String'>Property Bag key.</param>
+        /// <param name='value' type='T'>Property Bag value. Value will be converter to string.</param>
+        /// <param name='rootWeb' type='Boolean' optional='true'>Perform query on root web.</param>
+        ///	<returns type='$.Deferred' />
+        /// </signature>
+    },
+    'getPropertyBag': function () {
+        /// <signature>
+        ///	<summary>Get SP.Web Property Bag value.<para>On success: String.</para><para>On failure: SP.ClientRequestFailedEventArgs.</para></summary>
+        /// <param name='key' type='String'>Property Bag key.</param>
+        /// <param name='rootWeb' type='Boolean' optional='true'>Perform query on root web.</param>
+        ///	<returns type='$.Deferred' />
+        /// </signature>
+    }    
 });
