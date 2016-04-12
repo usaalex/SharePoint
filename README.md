@@ -3,14 +3,14 @@ SharePoint development related stuff!
 
 ## SharePoint JavaScript libraries
 
-### SP.JS Wrapper - SPJS (1.1.0)
+### SP.JS Wrapper - SPJS (1.1.1)
 #### Requirements
 * SharePoint 2010
 * jQuery
 
 SP.JS routine operations wrapper.
 Allows you to easily perform CRUD operations on Lists, get any user-related data and display SharePoint modal dialogs.
-Documentation can be found in 'intellisense' folder.
+Visual Studio documentation can be found in 'intellisense' folder.
 
 ##### Features:
 * Lists CRUD operations
@@ -20,12 +20,30 @@ Documentation can be found in 'intellisense' folder.
 * Deferreds, deferreds everywhere - no more callbacks
 
 ##### Examples:
+
+####### SPJS.getListItems params:
+* list - list name (string) or list (SP.List object)
+* [camlQuery] - caml query (string), leave emtpy to return all items
+* [viewFields] - view fields (array of strings), leave empty to return all fields
+* [rootWeb = false] - perform query on a root web (boolean)
+
 ```JavaScript
-  // coming soon
+  var request = SPJS.getListItems('My Items'/*, '<View><RowLimit>10</RowLimit></View>', ['ID', 'Title']. false*/);
+  request.then(function(items/*, sender, args */){
+    // items - Array of SP.ListItem
+    for(var i = 0; i < items.length; i++) {
+      alert(items[i].get_item('Title'));
+    }
+  }).fail(function(args/*, sender */) {
+    // args - SP.ClientRequestFailedEventArgs
+    alert(args.get_message());
+  });
 ```
 
 ##### New features:
 * 1.1.0 Added Property Bag get and set functionality.
+
+
 
 ### SP.CamlQuery Builder - SPJS.Query (1.0.1)
 Allows you to easily build SharePoint Caml Query.
