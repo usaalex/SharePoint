@@ -20,7 +20,6 @@ Visual Studio documentation can be found in 'intellisense' folder.
 * Deferreds, deferreds everywhere - no more callbacks
 
 ##### Examples:
-
 ####### SPJS.getListItems params:
 * list - list name (string) or list (SP.List object)
 * [camlQuery] - caml query (string), leave emtpy to return all items
