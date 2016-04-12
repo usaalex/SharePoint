@@ -49,7 +49,7 @@ Allows you to easily build SharePoint Caml Query.
 Documentation can be found in 'intellisense' folder.
 
 #### Requirements
-* SharePoint 2010
+* None
 
 ##### Features:
 * Logical join operators: and, or
