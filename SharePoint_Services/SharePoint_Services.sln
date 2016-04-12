@@ -9,18 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "intellisense", "intellisens
 		intellisense\spjsq.intellisense.js = intellisense\spjsq.intellisense.js
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "old", "old", "{A359CD94-10DD-4EC7-90DC-6C8B1E8BC3C3}"
-	ProjectSection(SolutionItems) = preProject
-		old\spjs.1.0.2.intellisense.js = old\spjs.1.0.2.intellisense.js
-		old\spjs.1.0.2.js = old\spjs.1.0.2.js
-		old\spjs.1.0.3.js = old\spjs.1.0.3.js
-		old\spjs.1.0.3.min.js = old\spjs.1.0.3.min.js
-		old\spjsq.1.0.0.intellisense.js = old\spjsq.1.0.0.intellisense.js
-		old\spjsq.1.0.1.js = old\spjsq.1.0.1.js
-		old\spjsq.1.0.1.min.js = old\spjsq.1.0.1.min.js
-		old\spjsq1.0.0.js = old\spjsq1.0.0.js
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{32F76C27-4D88-4A05-B41E-59F794D75DE2}"
 	ProjectSection(SolutionItems) = preProject
 		src\spjs.js = src\spjs.js

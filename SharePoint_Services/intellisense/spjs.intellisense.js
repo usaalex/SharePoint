@@ -1,4 +1,4 @@
-/* SPJS intellisense 1.1.0 */
+/* SPJS intellisense 1.1.1 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 intellisense.annotate(SPJS, {
@@ -62,16 +62,18 @@ intellisense.annotate(SPJS, {
     },
     'deleteListItems': function () {
         /// <signature>
-        /// <summary>Delete list items (Async).<para>On success: void.</para><para>On failure: SP.ClientRequestFailedEventArgs.</para></summary>
+        /// <summary>Delete list items (Async). By default list items are moved to recycle bin.<para>On success: void.</para><para>On failure: SP.ClientRequestFailedEventArgs.</para></summary>
         /// <param name='list' type='String'>List name.</param>
         /// <param name='camlQuery' type='String'>CAML Query.</param>
+        /// <param name='noRecycle' type='Boolean' optional='true'>Delete SP.ListItem permanently.</param>
         /// <param name='rootWeb' type='Boolean' optional='true'>Perform query on root web.</param>
         /// <returns type='$.Deferred' />
         /// </signature>
         /// <signature>
-        /// <summary>Delete list items (Async).<para>On success: void.</para><para>On failure: SP.ClientRequestFailedEventArgs.</para></summary>
+        /// <summary>Delete list items (Async). By default list items are moved to recycle bin.<para>On success: void.</para><para>On failure: SP.ClientRequestFailedEventArgs.</para></summary>
         /// <param name='list' type='SP.List'>SP.List object.</param>
         /// <param name='camlQuery' type='String'>CAML Query.</param>
+        /// <param name='noRecycle' type='Boolean' optional='true'>Delete SP.ListItem permanently.</param>
         /// <param name='rootWeb' type='Boolean' optional='true'>Perform query on root web.</param>
         /// <returns type='$.Deferred' />
         /// </signature>
@@ -81,6 +83,7 @@ intellisense.annotate(SPJS, {
         /// <summary>Delete list items by ids (Async).<para>On success: void.</para><para>On failure: SP.ClientRequestFailedEventArgs.</para></summary>
         /// <param name='list' type='String'>List name.</param>
         /// <param name='ids' type='Array'>Array of ids.</param>
+        /// <param name='noRecycle' type='Boolean' optional='true'>Delete SP.ListItem permanently.</param>
         /// <param name='rootWeb' type='Boolean' optional='true'>Perform query on root web.</param>
         /// <returns type='$.Deferred' />
         /// </signature>
@@ -88,6 +91,7 @@ intellisense.annotate(SPJS, {
         /// <summary>Delete list items by ids (Async).<para>On success: void.</para><para>On failure: SP.ClientRequestFailedEventArgs.</para></summary>
         /// <param name='list' type='SP.List'>SP.List object.</param>
         /// <param name='ids' type='Array'>Array of ids.</param>
+        /// <param name='noRecycle' type='Boolean' optional='true'>Delete SP.ListItem permanently.</param>
         /// <param name='rootWeb' type='Boolean' optional='true'>Perform query on root web.</param>
         /// <returns type='$.Deferred' />
         /// </signature>

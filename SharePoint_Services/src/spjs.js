@@ -1,4 +1,4 @@
-/* SP.JS WRAPPER 1.1.0 */
+/* SP.JS WRAPPER 1.1.1 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = (function ($) {
@@ -183,7 +183,7 @@ var SPJS = (function ($) {
         return def.promise();
     }
 
-    function deleteListItems(list, camlQuery, rootWeb) {
+    function deleteListItems(list, camlQuery, noRecycle, rootWeb) {
 
         if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");
         if (isNullEmptyUndefined(camlQuery)) throw new ArgumentNullException("camlQuery");        
@@ -194,11 +194,11 @@ var SPJS = (function ($) {
                 for (var i = 0; i < items.length; i++) {
                     ids.push(items[i].get_item('ID'));
                 }
-                return deleteListItemsByIds(list, ids, rootWeb);
+                return deleteListItemsByIds(list, ids, noRecycle, rootWeb);
             });
     }
 
-    function deleteListItemsByIds(list, ids, rootWeb) {
+    function deleteListItemsByIds(list, ids, noRecycle, rootWeb) {
 
         if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");        
         if (isNullEmptyUndefined(ids) || isEmptyArray(ids)) throw new ArgumentException("ids", "Value must be an array and have at least one element.");
@@ -209,7 +209,12 @@ var SPJS = (function ($) {
         var spList = (typeof list == "string") ? spWeb.get_lists().getByTitle(list) : list;
         for (var i = 0; i < ids.length; i++) {
             var item = spList.getItemById(ids[i]);
-            item.deleteObject();
+            if (!!noRecycle) {
+                item.deleteObject();
+            }
+            else {
+                item.recycle();
+            }
         }
         spCtx.executeQueryAsync(
             function (sender, args) {
@@ -451,8 +456,6 @@ var SPJS = (function ($) {
 
         getPropertyBag: getPropertyBag,
         setPropertyBag: setPropertyBag
-
-
     }
 
 })(jQuery);
