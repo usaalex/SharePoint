@@ -1,4 +1,4 @@
-/* SP.JS WRAPPER 1.1.1 */
+/* SP.JS WRAPPER 1.2.0 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = (function ($) {
@@ -231,17 +231,26 @@ var SPJS = (function ($) {
     /* LISTS */
 
     function getGUID(list, rootWeb) {
+        return getList(list, rootWeb).then(function (list) {
+            if (list && list.get_id) {
+                return list.get_id().toString() || "";
+            }
+            return "";
+        });
+    }
+
+    function getList(list, rootWeb) {
 
         if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");
 
         var def = $.Deferred();
         var spCtx = SP.ClientContext.get_current();
-        var spWeb = (!!rootWeb) ? spCtx.get_site().get_rootWeb() : spCtx.get_web();
-        var spList = (typeof list == "string") ? spWeb.get_lists().getByTitle(list) : list;        
+        var spWeb =(!!rootWeb) ? spCtx.get_site().get_rootWeb(): spCtx.get_web();
+        var spList = (typeof list == "string") ? spWeb.get_lists().getByTitle(list): list;
         spCtx.load(spList);
         spCtx.executeQueryAsync(
             function (sender, args) {
-                def.resolve(spList.get_id().$5_0 || "", sender, args);
+                def.resolve(spList, sender, args);
             },
             function (sender, args) {
                 def.reject(args, sender);
@@ -250,6 +259,92 @@ var SPJS = (function ($) {
 
         return def.promise();
     }
+
+    /* FILES */
+
+    function getFile(url) {
+
+        if (isNullEmptyUndefined(url)) throw new ArgumentNullException("url");
+
+        var def = $.Deferred();
+        var spCtx = SP.ClientContext.get_current();
+        var spWeb = spCtx.get_web();
+        var spFile = spWeb.getFileByServerRelativeUrl(url);        
+        spCtx.load(spFile);
+        spCtx.executeQueryAsync(
+            function (sender, args) {
+                def.resolve(spFile, sender, args);
+            },
+            function (sender, args) {
+                def.reject(args, sender);
+            }
+        );
+
+        return def.promise();
+    }
+
+    function forcePublish(url, comment) {
+
+        if (isNullEmptyUndefined(url)) throw new ArgumentNullException("url");
+
+        var def = $.Deferred();
+        checkOutFile(url).always(function () {
+            checkInPublishFile(url, comment, 0, false).then(function () {
+                def.resolve.apply(this, arguments);
+            }).fail(function () {
+                def.reject.apply(this, arguments);
+            });
+        });
+
+        return def.promise();
+    }
+
+    function checkInPublishFile(url, comment, spCheckInType, noPublish) {
+
+        if (isNullEmptyUndefined(url)) throw new ArgumentNullException("url");
+
+        var def = $.Deferred();
+        var spCtx = SP.ClientContext.get_current();
+        var spWeb = spCtx.get_web();
+        var spFile = spWeb.getFileByServerRelativeUrl(url);
+        spFile.checkIn(comment || "", spCheckInType || 0);
+        if (!noPublish) {
+            spFile.publish();
+        }
+        spCtx.load(spFile);
+        spCtx.executeQueryAsync(
+            function (sender, args) {
+                def.resolve(spFile.get_uiVersionLabel() || "0", sender, args);
+            },
+            function (sender, args) {
+                def.reject(args, sender);
+            }
+        );
+
+        return def.promise();
+    }
+
+    function checkOutFile(url) {
+
+        if (isNullEmptyUndefined(url)) throw new ArgumentNullException("url");
+
+        var def = $.Deferred();
+        var spCtx = SP.ClientContext.get_current();
+        var spWeb = spCtx.get_web();
+        var spFile = spWeb.getFileByServerRelativeUrl(url);
+        spFile.checkOut();
+        spCtx.load(spFile);
+        spCtx.executeQueryAsync(
+            function (sender, args) {
+                def.resolve(spFile.get_uiVersionLabel() || "0", sender, args);
+            },
+            function (sender, args) {
+                def.reject(args, sender);
+            }
+        );
+
+        return def.promise();
+    }    
 
     /* USERS */
 
@@ -275,6 +370,7 @@ var SPJS = (function ($) {
     }
 
     function getUserProfile(ids, viewFields) {
+
         var spCtx = SP.ClientContext.get_current();
         var spWeb = spCtx.get_web();
         var spList = spWeb.get_siteUserInfoList();
@@ -405,12 +501,9 @@ var SPJS = (function ($) {
     function setPropertyBag(key, value, rootWeb) {
 
         if (isNullEmptyUndefined(key)) throw new ArgumentNullException("key");
-        if (!isPrimitiveType(value)) {
+        if (typeof value !== 'string') {
             value = JSON.stringify(value);
         }
-        value = (typeof value === 'undefined') ? null : value;
-        if (typeof value === 'boolean') { value = !!value ? 1 : 0; }
-        value = value.toString();
 
         var def = $.Deferred();
         var spCtx = SP.ClientContext.get_current();
@@ -430,6 +523,31 @@ var SPJS = (function ($) {
         return def.promise();
     }
 
+    function sp2js(spObject) {
+        if (!spObject) return null;
+        if (typeof spObject.get_fieldValues === "function") {
+            return spObject.get_fieldValues() || null;
+        }
+        if (typeof spObject.get_objectData === "function" && typeof spObject.get_objectData().get_properties === "function") {
+            return spObject.get_objectData().get_properties() || null;
+        }
+    }
+
+    function spObjectToObject(spObjects) {
+
+        if (isNullEmptyUndefined(spObjects)) throw new ArgumentNullException("spObjects");
+
+        var objects = (spObjects instanceof Array ? spObjects : [spObjects]);
+        for (var i = 0; i < objects.length; i++) {
+            var converted = sp2js(objects[i]);
+            if (!!converted) {
+                objects[i] = converted;
+            }
+        }
+
+        return (spObjects instanceof Array ? objects : (objects[0] || null));
+    }
+
     return {
         getListItems: getListItems,
         getListItemsByIds: getListItemsByIds,
@@ -442,6 +560,7 @@ var SPJS = (function ($) {
         getUserProfile: getUserProfile,
 
         getGUID: getGUID,
+        getList: getList,
 
         showSPAlert: showSPAlert,
         showSPConfirm: showSPConfirm,
@@ -455,7 +574,14 @@ var SPJS = (function ($) {
         getEntitiesPeoplePicker: getEntitiesPeoplePicker,
 
         getPropertyBag: getPropertyBag,
-        setPropertyBag: setPropertyBag
+        setPropertyBag: setPropertyBag,
+
+        checkOutFile: checkOutFile,
+        checkInPublishFile: checkInPublishFile,
+        forcePublish: forcePublish,
+        getFile: getFile,
+
+        spObjectToObject: spObjectToObject
     }
 
 })(jQuery);

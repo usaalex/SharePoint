@@ -1,4 +1,4 @@
-/* SP.JS CAML QUERY BUILDER 1.0.1 */
+/* SP.JS CAML QUERY BUILDER 1.0.2 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = SPJS || {};
@@ -33,7 +33,7 @@ SPJS.Query = function () {
     var viewFields = '';
     var rowLimit = 0;
     var scope = '';
-    var whereStack = [];
+    var whereQueue = [];
     var type = {
         and: 1,
         or: 2,
@@ -109,14 +109,14 @@ SPJS.Query = function () {
         return result;
     }
 
-    function checkStack(next) {
-        if (whereStack.length === 0 && next < 3) {
+    function checkQueue(next) {
+        if (whereQueue.length === 0 && next < 3) {
             throw new Error('Comparison operator expected.');
         }
-        if (whereStack[whereStack.length - 1] && (whereStack[whereStack.length - 1].elementType < 3 && next < 3)) {
+        if (whereQueue[whereQueue.length - 1] && (whereQueue[whereQueue.length - 1].elementType < 3 && next < 3)) {
             throw new Error('Comparison operator expected.');
         }
-        if (whereStack[whereStack.length - 1] && (whereStack[whereStack.length - 1].elementType > 2 && next > 2)) {
+        if (whereQueue[whereQueue.length - 1] && (whereQueue[whereQueue.length - 1].elementType > 2 && next > 2)) {
             throw new Error('Logical join operator expected.');
         }
     }
@@ -128,7 +128,7 @@ SPJS.Query = function () {
             if (isNullEmptyUndefined(value)) throw new ArgumentNullException('value');
         }
 
-        checkStack(elementType);
+        checkQueue(elementType);
         // overloaded
         var lookupId = false;
         if (typeof valueType == 'boolean') {
@@ -143,7 +143,7 @@ SPJS.Query = function () {
             }
         }
         //
-        whereStack.push(new Element(elementType, fieldName, value, valueType, lookupId));
+        whereQueue.push(new Element(elementType, fieldName, value, valueType, lookupId));
         return this;
     }
 
@@ -262,26 +262,26 @@ SPJS.Query = function () {
 
     function buildWhere() {
         var result = '{caml}';
-        if (whereStack.length === 0) {
+        if (whereQueue.length === 0) {
             result = '';
         }
-        for (var i = 0; i < whereStack.length; i++) {
-            switch (whereStack[i].elementType) {
+        for (var i = 0; i < whereQueue.length; i++) {
+            switch (whereQueue[i].elementType) {
                 case type.and: result = '<And>{caml}{caml}</And>'.replace('{caml}', result); break;
                 case type.or: result = '<Or>{caml}{caml}</Or>'.replace('{caml}', result); break;
-                case type.eq: result = result.replace('{caml}', '<Eq>' + buildFieldValue(whereStack[i]) + '</Eq>'); break;
-                case type.neq: result = result.replace('{caml}', '<Neq>' + buildFieldValue(whereStack[i]) + '</Neq>'); break;
-                case type.gt: result = result.replace('{caml}', '<Gt>' + buildFieldValue(whereStack[i]) + '</Gt>'); break;
-                case type.geq: result = result.replace('{caml}', '<Geq>' + buildFieldValue(whereStack[i]) + '</Geq>'); break;
-                case type.lt: result = result.replace('{caml}', '<Lt>' + buildFieldValue(whereStack[i]) + '</Lt>'); break;
-                case type.leq: result = result.replace('{caml}', '<Leq>' + buildFieldValue(whereStack[i]) + '</Leq>'); break;
-                case type.begins: result = result.replace('{caml}', '<BeginsWith>' + buildFieldValue(whereStack[i]) + '</BeginsWith>'); break;
-                case type.contains: result = result.replace('{caml}', '<Contains>' + buildFieldValue(whereStack[i]) + '</Contains>'); break;
-                case type.includes: result = result.replace('{caml}', '<Includes>' + buildFieldValue(whereStack[i]) + '</Includes>'); break;
-                case type.notIncludes: result = result.replace('{caml}', '<NotIncludes>' + buildFieldValue(whereStack[i]) + '</NotIncludes>'); break;
-                case type.isNull: result = result.replace('{caml}', '<IsNull><FieldRef Name="' + whereStack[i].field + '" /></IsNull>'); break;
-                case type.isNotNull: result = result.replace('{caml}', '<IsNotNull><FieldRef Name="' + whereStack[i].field + '" /></IsNotNull>'); break;
-                case type.in_: result = result.replace('{caml}', '<In>' + buildInValues(whereStack[i]) + '</In>'); break;
+                case type.eq: result = result.replace('{caml}', '<Eq>' + buildFieldValue(whereQueue[i]) + '</Eq>'); break;
+                case type.neq: result = result.replace('{caml}', '<Neq>' + buildFieldValue(whereQueue[i]) + '</Neq>'); break;
+                case type.gt: result = result.replace('{caml}', '<Gt>' + buildFieldValue(whereQueue[i]) + '</Gt>'); break;
+                case type.geq: result = result.replace('{caml}', '<Geq>' + buildFieldValue(whereQueue[i]) + '</Geq>'); break;
+                case type.lt: result = result.replace('{caml}', '<Lt>' + buildFieldValue(whereQueue[i]) + '</Lt>'); break;
+                case type.leq: result = result.replace('{caml}', '<Leq>' + buildFieldValue(whereQueue[i]) + '</Leq>'); break;
+                case type.begins: result = result.replace('{caml}', '<BeginsWith>' + buildFieldValue(whereQueue[i]) + '</BeginsWith>'); break;
+                case type.contains: result = result.replace('{caml}', '<Contains>' + buildFieldValue(whereQueue[i]) + '</Contains>'); break;
+                case type.includes: result = result.replace('{caml}', '<Includes>' + buildFieldValue(whereQueue[i]) + '</Includes>'); break;
+                case type.notIncludes: result = result.replace('{caml}', '<NotIncludes>' + buildFieldValue(whereQueue[i]) + '</NotIncludes>'); break;
+                case type.isNull: result = result.replace('{caml}', '<IsNull><FieldRef Name="' + whereQueue[i].field + '" /></IsNull>'); break;
+                case type.isNotNull: result = result.replace('{caml}', '<IsNotNull><FieldRef Name="' + whereQueue[i].field + '" /></IsNotNull>'); break;
+                case type.in_: result = result.replace('{caml}', '<In>' + buildInValues(whereQueue[i]) + '</In>'); break;
             }
         }
         return '<Where>' + result + '</Where>';
@@ -351,7 +351,7 @@ SPJS.Query = function () {
     }
 
     function build() {
-        if (whereStack[whereStack.length - 1] && whereStack[whereStack.length - 1].elementType < 3) {
+        if (whereQueue[whereQueue.length - 1] && whereQueue[whereQueue.length - 1].elementType < 3) {
             throw new Error('Comparison operator expected.');
         }
         var where = buildWhere();
