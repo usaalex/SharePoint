@@ -3,7 +3,7 @@ SharePoint development related stuff!
 
 ## SharePoint JavaScript libraries
 
-### SP.JS Wrapper - SPJS (1.1.1)
+### SP.JS Wrapper - SPJS (1.2.0)
 #### Requirements
 * SharePoint 2010
 * jQuery
@@ -41,6 +41,7 @@ Visual Studio documentation can be found in 'intellisense' folder.
 
 ##### New features:
 * 1.1.0 Added Property Bag get and set functionality.
+* 1.2.0 Added functions to get SP.List, SP.File, check-in/check-out/publish SP.File and sp.js objects converter to JavaScript plain objects.
 
 
 
