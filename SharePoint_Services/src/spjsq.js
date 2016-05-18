@@ -293,7 +293,9 @@ SPJS.Query = function () {
 
     function buildFieldValue(elem) {
         var result = '';
-        result = '<FieldRef Name="' + elem.field + '" ' + (!!elem.lookupId ? 'LookupId="TRUE"' : '') + ' /><Value Type="' + elem.valueType + '">' + elem.value + '</Value>';
+        var attributes = '';
+        attributes += (elem.valueType === 'DateTime' ? 'IncludeTimeValue="TRUE"' : '');
+        result = '<FieldRef Name="' + elem.field + '" ' + (!!elem.lookupId ? 'LookupId="TRUE"' : '') + ' /><Value ' + attributes + ' Type="' + elem.valueType + '">' + elem.value + '</Value>';
         return result;
     }
 
