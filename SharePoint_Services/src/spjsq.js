@@ -1,10 +1,14 @@
-/* SP.JS CAML QUERY BUILDER 1.0.2 */
+/* SP.JS CAML QUERY BUILDER 1.0.3 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = SPJS || {};
 SPJS.Query = function () {
 
     'use strict';
+
+    var ver = function () {
+        return '1.0.3';
+    };
 
     function ArgumentNullException(argument) {
         this.name = "ArgumentNullException";
@@ -385,6 +389,7 @@ SPJS.Query = function () {
         Scope: Scope,
         RowLimit: RowLimit,
         ViewFields: ViewFields,
-        build: build
+        build: build,
+        ver: ver
     }
 };

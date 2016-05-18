@@ -1,9 +1,13 @@
-/* SP.JS WRAPPER 1.2.0 */
+/* SP.JS WRAPPER 1.2.2 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = (function ($) {
 
     'use strict';
+
+    var ver = function () {
+        return '1.2.2';
+    };
 
     function ArgumentNullException(argument) {
         this.name = "ArgumentNullException";
@@ -34,12 +38,13 @@ var SPJS = (function ($) {
     }
 
     String.prototype.format = function () {
-        var thisString = this;
+        var str = this;
         for (var i = 0; i < arguments.length; i++) {
-            thisString = thisString.replace("{" + i + "}", arguments[i]);
+            var regex = new RegExp('{' + i + '\\}', 'g');
+            str = str.replace(regex, arguments[i]);
         }
 
-        return thisString;
+        return str;
     };
 
     /* LIST ITEMS */
@@ -501,8 +506,11 @@ var SPJS = (function ($) {
     function setPropertyBag(key, value, rootWeb) {
 
         if (isNullEmptyUndefined(key)) throw new ArgumentNullException("key");
-        if (typeof value !== 'string') {
+        if (value != null && typeof value !== 'string') {
             value = JSON.stringify(value);
+        }
+        if (typeof value === 'undefined') {
+            value = null;
         }
 
         var def = $.Deferred();
@@ -581,7 +589,9 @@ var SPJS = (function ($) {
         forcePublish: forcePublish,
         getFile: getFile,
 
-        spObjectToObject: spObjectToObject
+        spObjectToObject: spObjectToObject,
+
+        ver: ver
     }
 
 })(jQuery);
