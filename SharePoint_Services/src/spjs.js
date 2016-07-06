@@ -1,4 +1,4 @@
-/* SP.JS WRAPPER 1.2.2 */
+/* SP.JS WRAPPER 1.2.3 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = (function ($) {
@@ -52,7 +52,7 @@ var SPJS = (function ($) {
     function getListItems(list, camlQuery, viewFields, rootWeb) {
 
         if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");
-
+        // viewFields is array?
         var def = $.Deferred();
         var spCtx = SP.ClientContext.get_current();
         var spWeb = (!!rootWeb) ? spCtx.get_site().get_rootWeb() : spCtx.get_web();        
@@ -60,13 +60,13 @@ var SPJS = (function ($) {
         var spQuery = new SP.CamlQuery();
         spQuery.set_viewXml(camlQuery || "");
         var spItems = spList.getItems(spQuery);
-        if (!!viewFields)
+        if (!!viewFields) // viewFields is array?
             spCtx.load(spItems, "Include(ID," + viewFields.join(",") + ")");
         else
             spCtx.load(spItems);
         spCtx.executeQueryAsync(
             function (sender, args) {
-                def.resolve(spItems.$2_1, sender, args);
+                def.resolve(spItems.get_data(), sender, args);
             },
             function (sender, args) {
                 def.reject(args, sender);
@@ -76,7 +76,7 @@ var SPJS = (function ($) {
         return def.promise();
     }
 
-    function getListItemsByIds(list, ids, viewFields, rootWeb) {
+    function getListItemsByIds(list, ids, rootWeb) {
 
         if (isNullEmptyUndefined(list)) throw new ArgumentNullException("list");
         if (isNullEmptyUndefined(ids) || isEmptyArray(ids)) throw new ArgumentException("ids", "Value must be an array and have at least one element.");
@@ -88,11 +88,7 @@ var SPJS = (function ($) {
         var spItems = [];
         for (var i = 0; i < ids.length; i++) {
             var item = spList.getItemById(ids[i]);
-            if (!!viewFields)
-                spCtx.load.apply(this, [item].concat(viewFields));
-            else
-                spCtx.load(item);
-
+            spCtx.load(item);
             spItems.push(item);
         }
         spCtx.executeQueryAsync(

@@ -1,4 +1,4 @@
-/* SP.JS CAML QUERY BUILDER 1.0.3 */
+/* SP.JS CAML QUERY BUILDER 1.0.4 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = SPJS || {};
@@ -99,6 +99,9 @@ SPJS.Query = function () {
         }
         if ((valueType == 'Lookup' || valueType == 'LookupMulti') && typeof lookupId == 'undefined') {
             this.lookupId = true;
+        }
+        if (typeof value == 'boolean') {
+            this.value = this.value ? 1 : 0;
         }
     };
 
@@ -294,7 +297,7 @@ SPJS.Query = function () {
     function buildFieldValue(elem) {
         var result = '';
         var attributes = '';
-        attributes += (elem.valueType === 'DateTime' ? 'IncludeTimeValue="TRUE"' : '');
+        attributes += (elem.valueType === 'DateTime' ? 'IncludeTimeValue="FALSE"' : '');
         result = '<FieldRef Name="' + elem.field + '" ' + (!!elem.lookupId ? 'LookupId="TRUE"' : '') + ' /><Value ' + attributes + ' Type="' + elem.valueType + '">' + elem.value + '</Value>';
         return result;
     }

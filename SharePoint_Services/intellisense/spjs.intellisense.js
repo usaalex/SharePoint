@@ -30,16 +30,14 @@ intellisense.annotate(SPJS, {
         /// <signature>
         ///      <summary>Get list items by ids (Async).<para>On success: Array of SP.ListItem.</para><para>On failure: SP.ClientRequestFailedEventArgs.</para></summary>
         ///      <param name='list' type='String'>List name.</param>
-        ///      <param name='ids' type='Array'>Array of ids.</param>
-        ///      <param name='viewFields' type='Array' optional='true'>Array of internal fields names.</param>		
+        ///      <param name='ids' type='Array'>Array of ids.</param>        
         ///      <param name='rootWeb' type='Boolean' optional='true'>Perform query on root web.</param>
         ///      <returns type='$.Deferred' />
         /// </signature>
         /// <signature>
         ///      <summary>Get list items by ids (Async).<para>On success: Array of SP.ListItem.</para><para>On failure: SP.ClientRequestFailedEventArgs.</para></summary>
         ///      <param name='list' type='SP.List'>SP.List object.</param>
-        ///      <param name='ids' type='Array'>Array of ids.</param>
-        ///      <param name='viewFields' type='Array' optional='true'>Array of internal fields names.</param>		
+        ///      <param name='ids' type='Array'>Array of ids.</param>        
         ///      <param name='rootWeb' type='Boolean' optional='true'>Perform query on root web.</param>
         ///      <returns type='$.Deferred' />
         /// </signature>
