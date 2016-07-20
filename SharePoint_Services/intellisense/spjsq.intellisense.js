@@ -28,7 +28,8 @@ SPJS.Query = function () {
             ///     <summary>Equals to comparison operator.</summary>    
             ///     <param name='fieldName' type='String'>Internal field name.</param>
             ///     <param name='value' type='T'>Field value.</param>
-            ///     <param name='valueType' type='String' optional='true'>Field value type. Field value type is detected implicitly, but you can specify it explicitly.</param>            
+            ///     <param name='valueType' type='String' optional='true'>Field value type. Field value type is detected implicitly, but you can specify it explicitly.</param>
+            ///     <param name='optional' type='String' optional='true'>Optional param used for some data types.<para>DATETIME: Include Time value (boolean).</para></param>
             ///     <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
@@ -53,6 +54,7 @@ SPJS.Query = function () {
             ///     <param name='fieldName' type='String'>Internal field name.</param>
             ///     <param name='value' type='T'>Field value.</param>
             ///     <param name='valueType' type='String' optional='true'>Field value type. Field value type is detected implicitly, but you can specify it explicitly.</param>            
+            ///     <param name='optional' type='String' optional='true'>Optional param used for some data types.<para>DATETIME: Include Time value (boolean).</para></param>
             ///     <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
@@ -77,6 +79,7 @@ SPJS.Query = function () {
             ///     <param name='fieldName' type='String'>Internal field name.</param>
             ///     <param name='value' type='T'>Field value.</param>
             ///     <param name='valueType' type='String' optional='true'>Field value type. Field value type is detected implicitly, but you can specify it explicitly.</param>            
+            ///     <param name='optional' type='String' optional='true'>Optional param used for some data types.<para>DATETIME: Include Time value (boolean).</para></param>
             ///     <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
@@ -101,6 +104,7 @@ SPJS.Query = function () {
             ///     <param name='fieldName' type='String'>Internal field name.</param>
             ///     <param name='value' type='T'>Field value.</param>
             ///     <param name='valueType' type='String' optional='true'>Field value type. Field value type is detected implicitly, but you can specify it explicitly.</param>            
+            ///     <param name='optional' type='String' optional='true'>Optional param used for some data types.<para>DATETIME: Include Time value (boolean).</para></param>
             ///     <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
@@ -125,6 +129,7 @@ SPJS.Query = function () {
             ///     <param name='fieldName' type='String'>Internal field name.</param>
             ///     <param name='value' type='T'>Field value.</param>
             ///     <param name='valueType' type='String' optional='true'>Field value type. Field value type is detected implicitly, but you can specify it explicitly.</param>            
+            ///     <param name='optional' type='String' optional='true'>Optional param used for some data types.<para>DATETIME: Include Time value (boolean).</para></param>
             ///     <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
@@ -133,7 +138,6 @@ SPJS.Query = function () {
             ///     <param name='value' type='String|Number'>Lookup value.</param>
             ///     <param name='lookupId' type='Boolean'>Lookup field value by id.</param>
             ///     <param name='isMulti' type='Boolean' optional='true'>Is Lookup field a MultiLookup.</param>
-            ///     <returns type="SPJS.Query" />lean' optional='true'>Is Lookup field a MultiLookup.</param>
             ///     <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
@@ -150,6 +154,7 @@ SPJS.Query = function () {
             ///     <param name='fieldName' type='String'>Internal field name.</param>
             ///     <param name='value' type='T'>Field value.</param>
             ///     <param name='valueType' type='String' optional='true'>Field value type. Field value type is detected implicitly, but you can specify it explicitly.</param>            
+            ///     <param name='optional' type='String' optional='true'>Optional param used for some data types.<para>DATETIME: Include Time value (boolean).</para></param>
             ///     <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
@@ -173,7 +178,7 @@ SPJS.Query = function () {
             ///     <summary>Begins with comparison operator. Searches for a string at the start of a column.</summary>    
             ///     <param name='fieldName' type='String'>Internal field name.</param>
             ///     <param name='value' type='T'>Field value.</param>
-            ///     <param name='valueType' type='String' optional='true'>Field value type. Field value type is detected implicitly, but you can specify it explicitly.</param>            
+            ///     <param name='valueType' type='String' optional='true'>Field value type. Field value type is detected implicitly, but you can specify it explicitly.</param>                        
             ///     <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
@@ -208,6 +213,7 @@ SPJS.Query = function () {
             ///     <param name='fieldName' type='String'>Internal field name.</param>
             ///     <param name='values' type='Array'>Field values.</param>
             ///     <param name='valueType' type='String' optional='true'>Field value type. Field value type is detected implicitly, but you can specify it explicitly.</param>
+            ///     <param name='optional' type='String' optional='true'>Optional param used for some data types.<para>DATETIME: Include Time value (boolean).</para></param>
             ///     <returns type="SPJS.Query" />
             /// </signature>
             /// <signature>
