@@ -1,4 +1,4 @@
-/* SP.JS CAML QUERY BUILDER 1.0.4 */
+/* SP.JS CAML QUERY BUILDER 1.1.0 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = SPJS || {};
@@ -82,12 +82,13 @@ SPJS.Query = function () {
         }());
     }
 
-    var Element = function (elementType, fieldName, value, valueType, lookupId) {
+    var Element = function (elementType, fieldName, value, valueType, lookupId, includeTimeValue) {
         this.elementType = elementType || 0;
         this.field = fieldName || '';
         this.value = value || '';
         this.valueType = valueType || '';
         this.lookupId = !!lookupId;
+        this.includeTimeValue = !!includeTimeValue;
         if (!!fieldName && typeof value != 'undefined' && typeof valueType == 'undefined') {
             this.valueType = autoFieldType(value);
         }
@@ -128,29 +129,35 @@ SPJS.Query = function () {
         }
     }
 
-    function createElement(elementType, fieldName, value, valueType, isMulti) {
+    function createElement(elementType, fieldName, value, valueType, optional1) {
 
         if (elementType >= 3) {
             if (isNullEmptyUndefined(fieldName)) throw new ArgumentNullException('fieldName');
             if (isNullEmptyUndefined(value)) throw new ArgumentNullException('value');
         }
-
         checkQueue(elementType);
-        // overloaded
+        // function overloads
         var lookupId = false;
-        if (typeof valueType == 'boolean') {
-            lookupId = !!valueType;
-            if (elementType == type.in_) valueType = lookupId ? 'Integer' : 'Text';
-            else valueType = !!isMulti ? 'LookupMulti' : 'Lookup';            
+        var includeTimeValue = false;
+        // overload 0: special cases
+        // DateTime
+        if (valueType === 'DateTime') {
+                includeTimeValue = !!optional1;
         }
-        else {
-            if (valueType === 'Lookup' || valueType == 'LookupMulti') {
-                lookupId = !!isMulti;
-                if (elementType == type.in_) valueType = lookupId ? 'Integer' : 'Text';
-            }
+        // overload 2: if date time
+        if (value instanceof Date && typeof valueType === 'boolean') {
+            includeTimeValue = !!valueType;
+            valueType = 'DateTime';
         }
-        //
-        whereQueue.push(new Element(elementType, fieldName, value, valueType, lookupId));
+        // overload 1: lookup
+        if (typeof value === 'number' && typeof valueType === 'boolean') {
+            lookupId = !!valueType;            
+            if (elementType === type.in_)
+                valueType = lookupId ? 'Integer' : 'Text';
+            else
+                valueType = !!optional1 ? 'LookupMulti' : 'Lookup';
+        }
+        whereQueue.push(new Element(elementType, fieldName, value, valueType, lookupId, includeTimeValue));
         return this;
     }
 
@@ -297,7 +304,7 @@ SPJS.Query = function () {
     function buildFieldValue(elem) {
         var result = '';
         var attributes = '';
-        attributes += (elem.valueType === 'DateTime' ? 'IncludeTimeValue="FALSE"' : '');
+        attributes += (elem.valueType === 'DateTime' ? 'IncludeTimeValue="' + (elem.includeTimeValue ? 'TRUE' : 'FALSE') + '"' : '');
         result = '<FieldRef Name="' + elem.field + '" ' + (!!elem.lookupId ? 'LookupId="TRUE"' : '') + ' /><Value ' + attributes + ' Type="' + elem.valueType + '">' + elem.value + '</Value>';
         return result;
     }
