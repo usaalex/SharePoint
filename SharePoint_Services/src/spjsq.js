@@ -1,4 +1,4 @@
-/* SP.JS CAML QUERY BUILDER 1.1.0 */
+/* SP.JS CAML QUERY BUILDER 1.1.1 */
 /* https://github.com/usaalex/SharePoint */
 /* © WM-FDH, 2016 */
 var SPJS = SPJS || {};
@@ -143,14 +143,14 @@ SPJS.Query = function () {
         // DateTime
         if (valueType === 'DateTime') {
                 includeTimeValue = !!optional1;
-        }
+        } else
         // overload 2: if date time
         if (value instanceof Date && typeof valueType === 'boolean') {
             includeTimeValue = !!valueType;
             valueType = 'DateTime';
-        }
+        } else
         // overload 1: lookup
-        if (typeof value === 'number' && typeof valueType === 'boolean') {
+        if (typeof valueType === 'boolean') {
             lookupId = !!valueType;            
             if (elementType === type.in_)
                 valueType = lookupId ? 'Integer' : 'Text';
