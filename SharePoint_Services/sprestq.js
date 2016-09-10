@@ -34,8 +34,15 @@ SPRest.Query = function (url) {
     var parenthesesOpen = 0;
     var parenthesesClosed = 0;
 
+    function distinct(arr) {
+        return arr.filter(function (val, ind, self) {
+            return self.indexOf(val) === ind;
+        });
+    }
+
     var Expression = {
         eq: '{field} eq {value}',
+        eqx: '{field} eq {value}',
         lt: '{field} lt {value}',
         gt: '{field} gt {value}',
         ge: '{field} ge {value}',
@@ -51,27 +58,33 @@ SPRest.Query = function (url) {
     function buildExpression(expression, field, value, lookup) {
         if ((expression != Expression.and && expression != Expression.or) && (field == null)) throw new ArgumentNullException('field');
         if ((expression != Expression.and && expression != Expression.or) && (value == null)) throw new ArgumentNullException('value');
-        // lookup
-        if (lookup) {
-            $expand.push(field);
-            field = field + '/Id,' + field + '/Title';
+        if (typeof lookup === 'boolean') {
+            field = lookup ? field + 'Id' : field + '/Title';
         }
         // type
         if (typeof value === 'string') {
             value = "'" + value + "'";
-        } else if (typeof value === 'object' && value instanceof Date) {
+        } else if (value instanceof Date) {
             value = "datetime'" + value.toJSON() + "'";
         } else if (typeof value === 'boolean') {
             value = !!value ? '1' : '0';
-        }                
-        $filter += (first ? ' ' : '') + expression.replace('{field}', field).replace('{value}', value);
-        previousExpression = expression;
-        first = false;
+        }
+        if (expression === Expression.eqx && value instanceof Array) {
+            $filter = field + " eq '" + value.join("' or " + field + " eq '") + "'";
+        }
+        else {
+            $filter += expression.replace('{field}', field).replace('{value}', value);
+        }
+        previousExpression = expression;        
         return this;
     }
 
     function eq(field, value, lookup) {
         return buildExpression.call(this, Expression.eq, field, value, lookup);
+    }
+
+    function eqx(field, values) {
+        return buildExpression.call(this, Expression.eqx, field, values);
     }
 
     function lt(field, value, lookup) {
@@ -160,14 +173,22 @@ SPRest.Query = function (url) {
         return this;
     }
 
-    function build() {
+    function build(noQuestionMark) {
         if (parenthesesClosed != parenthesesOpen) throw new Error('Parentheses are not balanced.');
+
+        $expand.forEach(function (field) {
+            var index = $select.indexOf(field);
+            if (index > -1) {
+                $select[index] = $select[index] + '/Id,' + $select[index] + '/Title';
+            }
+        });
+
         query += url ? url : '';
-        query += '?';
+        query += noQuestionMark ? '' : '?';
         query += ($filter ? '&$filter=' + $filter : '');
-        query += ($select.length > 0 ? '&$select=' + $select.join(',') : '');
-        query += ($expand.length > 0 && $select.length > 0 ? '&$expand=' + $expand.join(',') : '');
-        query += ($orderby.length > 0 ? '&$orderby=' + $orderby.join(',') + ($orderbyDesc ? ' desc' : ' asc') : '');
+        query += ($select.length > 0 ? '&$select=' + distinct($select).join(',') : '');
+        query += ($expand.length > 0 && $select.length > 0 ? '&$expand=' + distinct($expand).join(',') : '');
+        query += ($orderby.length > 0 ? '&$orderby=' + distinct($orderby).join(',') + ($orderbyDesc ? ' desc' : ' asc') : '');
         query += ($top > 0 ? '&$top=' + $top : '');
         //query += ($skip > 0 ? '&$skip=' + $skip : '');
 
@@ -181,6 +202,7 @@ SPRest.Query = function (url) {
         gt: gt,
         ge: ge,
         ne: ne,
+        eqx: eqx,
         and: and,
         or: or,
         endswith: endswith,

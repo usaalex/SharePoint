@@ -67,10 +67,29 @@ var SPRest = (function ($) {
                     webUrl || _spPageContextInfo.webServerRelativeUrl,
                     listName,
                     query || ''),
-            headers: { 'accept': 'application/json; odata=nometadata' },
+            headers: { 'accept': 'application/json;odata=nometadata' },
             method: 'GET'
-        }).then(function (data) {
-            return data || [];
+        });
+    }
+
+    function getListItemsCAML(listName, camlQuery, webUrl) {
+        var camlData = {
+            query: {
+                __metadata: { type: 'SP.CamlQuery' },
+                ViewXml: camlQuery
+            }
+        };
+        return $httpProvider({
+            url: "{0}/_api/web/lists/getbytitle('{1}')/getitems".format(
+                    webUrl || _spPageContextInfo.webServerRelativeUrl,
+                    listName),
+            headers: {
+                'accept': 'application/json;odata=nometadata',
+                'content-type': 'application/json;odata=nometadata',
+                'X-RequestDigest': getRequestDigest(),
+            },
+            data: JSON.stringify(camlData),
+            method: 'POST'
         });
     }
 
@@ -82,10 +101,8 @@ var SPRest = (function ($) {
                     listName,
                     id,
                     query || ''),
-            headers: { 'accept': 'application/json; odata=nometadata' },
+            headers: { 'accept': 'application/json;odata=nometadata' },
             method: 'GET'
-        }).then(function (data) {
-            return data || null;
         });
     }
 
@@ -96,17 +113,15 @@ var SPRest = (function ($) {
                     webUrl || _spPageContextInfo.webServerRelativeUrl,
                     listName,
                     id),
-            type: "POST",
-            data: JSON.stringify(item),            
+            method: 'POST',
+            data: JSON.stringify(item),
             headers: {
-                'accept': 'application/json;odata=nometadata',
-                'content-type': 'application/json;odata=verbose',                
+                'accept': 'application/json;odata=verbose',
+                'content-type': 'application/json;odata=verbose',
                 'X-RequestDigest': getRequestDigest(),
                 'X-HTTP-Method': 'MERGE',
                 'If-Match': '*'
-            }
-        }).then(function (data) {
-            return data || null;
+            }            
         });
     }
 
@@ -117,7 +132,7 @@ var SPRest = (function ($) {
                     listName,
                     id,
                     forceDelete ? '' : '/recycle()'),
-            type: (forceDelete ? 'DELETE' : 'POST'),
+            method: (forceDelete ? 'DELETE' : 'POST'),
             headers: {
                 'accept': 'application/json;odata=nometadata',
                 'X-RequestDigest': getRequestDigest(),
@@ -126,21 +141,20 @@ var SPRest = (function ($) {
         });
     }
 
-    function createListItem(listName, item, itemType, webUrl) {
+    function createListItem(listName, item, itemType, query, webUrl) {
         item['__metadata'] = { type: itemType || getItemType(listName) };
         return $httpProvider({
-            url: "{0}/_api/web/lists/getbytitle('{1}')/items".format(
+            url: "{0}/_api/web/lists/getbytitle('{1}')/items{2}".format(
                     webUrl || _spPageContextInfo.webServerRelativeUrl,
-                    listName),            
+                    listName,
+                    query || ''),
             method: 'POST',
             data: JSON.stringify(item),
-            headers: { 
+            headers: {
                 'accept': 'application/json;odata=nometadata',
-                'content-type': 'application/json;odata=verbose',                
+                'content-type': 'application/json;odata=verbose',
                 'X-RequestDigest': getRequestDigest()
             }
-        }).then(function (data) {
-            return data || null;
         });
     }
 
@@ -150,6 +164,7 @@ var SPRest = (function ($) {
         createListItem: createListItem,
         updateListItem: updateListItem,
         deleteListItem: deleteListItem,
+        getListItemsCAML: getListItemsCAML,
         setHttpProvider: setHttpProvider
     }
 
